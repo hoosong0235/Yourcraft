@@ -1,0 +1,25 @@
+#####################
+
+#Unity Generated Files#
+
+####################
+
+Library/
+Temp/
+Builds/
+
+############
+
+#Asset Files#
+
+###########
+
+/Recordings
+
+##################
+
+#VS Generated Files#
+
+#################
+
+/.vs
