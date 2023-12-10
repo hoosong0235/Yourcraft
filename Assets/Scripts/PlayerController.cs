@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     Rigidbody rb;
-    float moveSpeed, jumpSpeed;
-    float sensitivity, xRotation, xMovement, zMovement;
+    float sen, horRot;
+    float horMov, verMov, movSpeed;
+    float jumpSpeed;
     Vector3 movement;
 
 
@@ -14,23 +16,23 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        moveSpeed = 2f;
+        movSpeed = 2f;
         jumpSpeed = 256f;
-        sensitivity = 100f;
+        sen = 100f;
     }
 
     // Update is called once per frame
     void Update()
     {
         // Character Rotation
-        xRotation = Input.GetAxis("Mouse X");
-        transform.Rotate(Vector3.up * xRotation * sensitivity * Time.deltaTime);
+        horRot = Input.GetAxis("Mouse X");
+        transform.Rotate(Vector3.up * horRot * sen * Time.deltaTime);
 
         // Character Movement
-        xMovement = Input.GetAxis("Horizontal");
-        zMovement = Input.GetAxis("Vertical");
-        movement = Vector3.right * xMovement + Vector3.forward * zMovement;
-        transform.Translate(movement * moveSpeed * Time.deltaTime);
+        horMov = Input.GetAxis("Horizontal");
+        verMov = Input.GetAxis("Vertical");
+        movement = Quaternion.AngleAxis(transform.rotation.eulerAngles.y, Vector3.up) * (Vector3.right * horMov + Vector3.forward * verMov);
+        rb.MovePosition(transform.position + movement * movSpeed * Time.deltaTime);
 
         // Character Jump
         if (Input.GetKeyDown(KeyCode.Space)) rb.AddForce(Vector3.up * rb.mass * jumpSpeed);

@@ -5,13 +5,13 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     Transform tfPlayer;
-    float sensitivity, yRotation;
+    float sen, verRot;
 
     // Start is called before the first frame update
     void Start()
     {
         tfPlayer = GameObject.Find("Player").transform;
-        sensitivity = 100f;
+        sen = 100f;
     }
 
     // Update is called once per frame
@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour
         transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, tfPlayer.rotation.eulerAngles.y, 0f);
 
         // Camera Rotation
-        yRotation = Input.GetAxis("Mouse Y");
-        transform.Rotate(Vector3.left * yRotation * sensitivity * Time.deltaTime);
+        verRot = Input.GetAxis("Mouse Y");
+        transform.Rotate(Vector3.left * verRot * sen * Time.deltaTime);
     }
 }
