@@ -19,9 +19,10 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.visible = false;
         rb = GetComponent<Rigidbody>();
         tfCamera = GameObject.Find("Main Camera").transform;
-        movSpeed = 2f;
+        movSpeed = 4f;
         jumpSpeed = 256f;
         sen = 100f;
         maxDistance = 5f;
@@ -30,29 +31,52 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Character Rotation
-        horRot = Input.GetAxis("Mouse X");
-        transform.Rotate(Vector3.up * horRot * sen * Time.deltaTime);
+        moveCharacter();
+        rotateCharacter();
+        jumpCharacter();
 
-        // Character Movement
+        destroyBlock();
+        placeBlock();
+    }
+
+    void moveCharacter()
+    {
         horMov = Input.GetAxis("Horizontal");
         verMov = Input.GetAxis("Vertical");
         movement = Quaternion.AngleAxis(transform.rotation.eulerAngles.y, Vector3.up) * (Vector3.right * horMov + Vector3.forward * verMov);
         rb.MovePosition(transform.position + movement * movSpeed * Time.deltaTime);
+    }
 
-        // Character Jump
+    void rotateCharacter()
+    {
+        horRot = Input.GetAxis("Mouse X");
+        transform.Rotate(Vector3.up * horRot * sen * Time.deltaTime);
+    }
+
+    void jumpCharacter()
+    {
         if (Input.GetKeyDown(KeyCode.Space)) rb.AddForce(Vector3.up * rb.mass * jumpSpeed);
 
-        // Destroy Block
+    }
+
+    void destroyBlock()
+    {
         if (Input.GetMouseButtonDown(0))
         {
             if (Physics.Raycast(tfCamera.position, tfCamera.TransformDirection(Vector3.forward), out hitInfo, maxDistance))
             {
-                goDestroy = hitInfo.collider.gameObject;
-                goDestroy.GetComponent<BlockController>().startDestroy();
+                try
+                {
+                    goDestroy = hitInfo.collider.gameObject;
+                    goDestroy.GetComponent<BlockController>().startDestroy();
+                }
+                catch
+                {
+                    print("[ERROR 1-1] startDestroy with null goDestroy");
+                }
             }
         }
-        else if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0))
         {
             if (Physics.Raycast(tfCamera.position, tfCamera.TransformDirection(Vector3.forward), out hitInfo, maxDistance))
             {
@@ -60,8 +84,15 @@ public class PlayerController : MonoBehaviour
                 {
                     if (goDestroy != null) goDestroy.GetComponent<BlockController>().endDestroy();
 
-                    goDestroy = hitInfo.collider.gameObject;
-                    goDestroy.GetComponent<BlockController>().startDestroy();
+                    try
+                    {
+                        goDestroy = hitInfo.collider.gameObject;
+                        goDestroy.GetComponent<BlockController>().startDestroy();
+                    }
+                    catch
+                    {
+                        print("[ERROR 1-2] startDestroy with null goDestroy");
+                    }
                 }
             }
             else
@@ -69,15 +100,24 @@ public class PlayerController : MonoBehaviour
                 if (goDestroy != null) goDestroy.GetComponent<BlockController>().endDestroy();
             }
         }
-        else if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0))
         {
             if (Physics.Raycast(tfCamera.position, tfCamera.TransformDirection(Vector3.forward), out hitInfo, maxDistance))
             {
-                if (goDestroy != null) goDestroy.GetComponent<BlockController>().endDestroy();
+                try
+                {
+                    goDestroy.GetComponent<BlockController>().endDestroy();
+                }
+                catch
+                {
+                    print("[ERROR 2-1] endDestroy wiht null goDestroy");
+                }
             }
         }
+    }
 
-        // Place Block
+    void placeBlock()
+    {
         if (Input.GetMouseButtonDown(1))
         {
 

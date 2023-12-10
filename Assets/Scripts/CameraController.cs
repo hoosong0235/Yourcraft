@@ -17,10 +17,18 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        moveCamera();
+        rotateCamera();
+    }
+
+    void moveCamera()
+    {
         transform.position = tfPlayer.position + new Vector3(0f, 0.5f, 0f);
         transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, tfPlayer.rotation.eulerAngles.y, 0f);
+    }
 
-        // Camera Rotation
+    void rotateCamera()
+    {
         verRot = Input.GetAxis("Mouse Y");
         transform.Rotate(Vector3.left * verRot * sen * Time.deltaTime);
     }
