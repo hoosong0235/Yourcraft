@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public GameObject ground, grass, wood, leaf, stone, bedrock;
+    List<GameObject> blocks;
     Rigidbody rb;
     Transform tfCamera;
     float sen, horRot;
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
         maxDistanceDestroy = 5f;
         maxDistancePlace = 5f;
         canvasController = GameObject.Find("CanvasController").GetComponent<CanvasController>();
+        blocks = new List<GameObject> { ground, grass, wood, leaf, stone };
     }
 
     // Update is called once per frame
@@ -76,11 +78,11 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.mouseScrollDelta.y > 0)
         {
-            canvasController.addIndex();
+            canvasController.subIndex();
         }
         if (Input.mouseScrollDelta.y < 0)
         {
-            canvasController.subIndex();
+            canvasController.addIndex();
         }
     }
 
@@ -164,7 +166,7 @@ public class PlayerController : MonoBehaviour
                 hitOrigin = hitInfoPlace.collider.gameObject.transform.position;
                 hitPoint = hitInfoPlace.point;
 
-                goPlace = Instantiate(grass);
+                goPlace = Instantiate(blocks[canvasController.getIndex()]);
                 goPlace.transform.position = new Vector3(
                     hitOrigin.x - 0.5f == hitPoint.x ? hitOrigin.x - 1f : (hitOrigin.x + 0.5f == hitPoint.x ? hitOrigin.x + 1f : hitOrigin.x),
                     hitOrigin.y - 0.5f == hitPoint.y ? hitOrigin.y - 1f : (hitOrigin.y + 0.5f == hitPoint.y ? hitOrigin.y + 1f : hitOrigin.y),
