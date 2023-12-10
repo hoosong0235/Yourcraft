@@ -127,7 +127,7 @@ public class TerrainGenerator : MonoBehaviour
             else zy += 1;
             zys.Add(minZ, zy);
 
-            for (x = minX; x < maxX; x++)
+            for (x = minX; x < maxX + 1; x++)
             {
                 xy = xys[x];
                 y = (xy + zy) / 2;
@@ -144,7 +144,7 @@ public class TerrainGenerator : MonoBehaviour
             else zy += 1;
             zys.Add(maxZ, zy);
 
-            for (x = minX; x < maxX; x++)
+            for (x = minX; x < maxX + 1; x++)
             {
                 xy = xys[x];
                 y = (xy + zy) / 2;
