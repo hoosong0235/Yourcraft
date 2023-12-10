@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     RaycastHit hitInfoDestroy, hitInfoPlace;
     GameObject goDestroy, goPlace;
     Vector3 hitOrigin, hitPoint;
+    CanvasController canvasController;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +31,7 @@ public class PlayerController : MonoBehaviour
         sen = 100f;
         maxDistanceDestroy = 5f;
         maxDistancePlace = 5f;
+        canvasController = GameObject.Find("CanvasController").GetComponent<CanvasController>();
     }
 
     // Update is called once per frame
@@ -38,6 +41,7 @@ public class PlayerController : MonoBehaviour
         rotateCharacter();
         jumpCharacter();
 
+        selectBlock();
         destroyBlock();
         placeBlock();
     }
@@ -65,6 +69,18 @@ public class PlayerController : MonoBehaviour
                 rb.AddForce(Vector3.up * rb.mass * jumpSpeed);
                 isJumping = true;
             }
+        }
+    }
+
+    void selectBlock()
+    {
+        if (Input.mouseScrollDelta.y > 0)
+        {
+            canvasController.addIndex();
+        }
+        if (Input.mouseScrollDelta.y < 0)
+        {
+            canvasController.subIndex();
         }
     }
 
