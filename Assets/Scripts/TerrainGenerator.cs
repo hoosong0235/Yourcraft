@@ -83,6 +83,58 @@ public class TerrainGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        updateGenerateTerrain();
+    }
+
+    void generateTerrain(float x, float y, float z)
+    {
+        // Grass, Ground, Stone, Bedrock Generation
+        grassInstance = Instantiate(grass);
+        grassInstance.transform.position = new UnityEngine.Vector3(x, y, z);
+
+        for (i = 0; i < 4; i++)
+        {
+            groundInstance = Instantiate(ground);
+            groundInstance.transform.position = new UnityEngine.Vector3(x, y - i - 1, z);
+        }
+
+        for (i = 0; i < 16; i++)
+        {
+            stoneInstance = Instantiate(stone);
+            stoneInstance.transform.position = new UnityEngine.Vector3(x, y - i - 5, z);
+        }
+
+        bedrockInstance = Instantiate(bedrock);
+        bedrockInstance.transform.position = new UnityEngine.Vector3(x, y - 21, z);
+
+        // Tree Generation
+        rand = UnityEngine.Random.Range(0f, 1f);
+        if (rand < 0.01f)
+        {
+            // Wood Generation
+            for (i = 0, perc = 1f; rand < perc; i++, perc = perc * 0.9f, rand = UnityEngine.Random.Range(0f, 1f))
+            {
+                woodInstance = Instantiate(wood);
+                woodInstance.transform.position = new UnityEngine.Vector3(x, y + i + 1, z);
+            }
+
+            // Leaf Generation
+            // TODO: Probablistic Generation
+            leafInstance = Instantiate(leaf);
+            leafInstance.transform.position = new UnityEngine.Vector3(x, y + i + 1, z);
+            leafInstance = Instantiate(leaf);
+            leafInstance.transform.position = new UnityEngine.Vector3(x - 1, y + i, z);
+            leafInstance = Instantiate(leaf);
+            leafInstance.transform.position = new UnityEngine.Vector3(x + 1, y + i, z);
+            leafInstance = Instantiate(leaf);
+            leafInstance.transform.position = new UnityEngine.Vector3(x, y + i, z - 1);
+            leafInstance = Instantiate(leaf);
+            leafInstance.transform.position = new UnityEngine.Vector3(x, y + i, z + 1);
+        }
+    }
+
+    void updateGenerateTerrain()
+    {
         if (tfPlayer.position.x - size < minX)
         {
             xy = xys[minX--];
@@ -151,53 +203,6 @@ public class TerrainGenerator : MonoBehaviour
 
                 generateTerrain(x, y, maxZ);
             }
-        }
-    }
-
-    void generateTerrain(float x, float y, float z)
-    {
-        // Grass, Ground, Stone, Bedrock Generation
-        grassInstance = Instantiate(grass);
-        grassInstance.transform.position = new UnityEngine.Vector3(x, y, z);
-
-        for (i = 0; i < 4; i++)
-        {
-            groundInstance = Instantiate(ground);
-            groundInstance.transform.position = new UnityEngine.Vector3(x, y - i - 1, z);
-        }
-
-        for (i = 0; i < 16; i++)
-        {
-            stoneInstance = Instantiate(stone);
-            stoneInstance.transform.position = new UnityEngine.Vector3(x, y - i - 5, z);
-        }
-
-        bedrockInstance = Instantiate(bedrock);
-        bedrockInstance.transform.position = new UnityEngine.Vector3(x, y - 21, z);
-
-        // Tree Generation
-        rand = UnityEngine.Random.Range(0f, 1f);
-        if (rand < 0.01f)
-        {
-            // Wood Generation
-            for (i = 0, perc = 1f; rand < perc; i++, perc = perc * 0.9f, rand = UnityEngine.Random.Range(0f, 1f))
-            {
-                woodInstance = Instantiate(wood);
-                woodInstance.transform.position = new UnityEngine.Vector3(x, y + i + 1, z);
-            }
-
-            // Leaf Generation
-            // TODO: Probablistic Generation
-            leafInstance = Instantiate(leaf);
-            leafInstance.transform.position = new UnityEngine.Vector3(x, y + i + 1, z);
-            leafInstance = Instantiate(leaf);
-            leafInstance.transform.position = new UnityEngine.Vector3(x - 1, y + i, z);
-            leafInstance = Instantiate(leaf);
-            leafInstance.transform.position = new UnityEngine.Vector3(x + 1, y + i, z);
-            leafInstance = Instantiate(leaf);
-            leafInstance.transform.position = new UnityEngine.Vector3(x, y + i, z - 1);
-            leafInstance = Instantiate(leaf);
-            leafInstance.transform.position = new UnityEngine.Vector3(x, y + i, z + 1);
         }
     }
 }
