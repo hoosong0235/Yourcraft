@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     float sen, horRot;
     float horMov, verMov, movSpeed;
     Vector3 movement;
+    bool isJumping;
     float jumpSpeed;
     float maxDistanceDestroy, maxDistancePlace;
     RaycastHit hitInfoDestroy, hitInfoPlace;
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         Cursor.visible = false;
+        isJumping = true;
         rb = GetComponent<Rigidbody>();
         tfCamera = GameObject.Find("Main Camera").transform;
         movSpeed = 4f;
@@ -56,8 +58,14 @@ public class PlayerController : MonoBehaviour
 
     void jumpCharacter()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) rb.AddForce(Vector3.up * rb.mass * jumpSpeed);
-
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (!isJumping)
+            {
+                rb.AddForce(Vector3.up * rb.mass * jumpSpeed);
+                isJumping = true;
+            }
+        }
     }
 
     void destroyBlock()
@@ -83,7 +91,14 @@ public class PlayerController : MonoBehaviour
             {
                 if (goDestroy != hitInfoDestroy.collider.gameObject)
                 {
-                    if (goDestroy != null) goDestroy.GetComponent<BlockController>().endDestroy();
+                    try
+                    {
+                        if (goDestroy != null) goDestroy.GetComponent<BlockController>().endDestroy();
+                    }
+                    catch
+                    {
+                        print("[ERROR 3-1] endDestroy with null nonnull goDestroy");
+                    }
 
                     try
                     {
@@ -98,7 +113,14 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                if (goDestroy != null) goDestroy.GetComponent<BlockController>().endDestroy();
+                try
+                {
+                    if (goDestroy != null) goDestroy.GetComponent<BlockController>().endDestroy();
+                }
+                catch
+                {
+                    print("[ERROR 3-2] endDestroy with null nonnull goDestroy");
+                }
             }
         }
         if (Input.GetMouseButtonUp(0))
@@ -134,5 +156,10 @@ public class PlayerController : MonoBehaviour
                 );
             }
         }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        isJumping = false;
     }
 }
