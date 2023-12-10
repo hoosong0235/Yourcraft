@@ -5,17 +5,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public GameObject ground, grass, wood, leaf, stone, bedrock;
     Rigidbody rb;
     Transform tfCamera;
     float sen, horRot;
     float horMov, verMov, movSpeed;
     Vector3 movement;
     float jumpSpeed;
-    float maxDistance;
-    RaycastHit hitInfo;
-    GameObject goDestroy;
-
-
+    float maxDistanceDestroy, maxDistancePlace;
+    RaycastHit hitInfoDestroy, hitInfoPlace;
+    GameObject goDestroy, goPlace;
+    Vector3 hitOrigin, hitPoint;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +25,8 @@ public class PlayerController : MonoBehaviour
         movSpeed = 4f;
         jumpSpeed = 256f;
         sen = 100f;
-        maxDistance = 5f;
+        maxDistanceDestroy = 5f;
+        maxDistancePlace = 5f;
     }
 
     // Update is called once per frame
@@ -63,11 +64,11 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (Physics.Raycast(tfCamera.position, tfCamera.TransformDirection(Vector3.forward), out hitInfo, maxDistance))
+            if (Physics.Raycast(tfCamera.position, tfCamera.TransformDirection(Vector3.forward), out hitInfoDestroy, maxDistanceDestroy))
             {
                 try
                 {
-                    goDestroy = hitInfo.collider.gameObject;
+                    goDestroy = hitInfoDestroy.collider.gameObject;
                     goDestroy.GetComponent<BlockController>().startDestroy();
                 }
                 catch
@@ -78,15 +79,15 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetMouseButton(0))
         {
-            if (Physics.Raycast(tfCamera.position, tfCamera.TransformDirection(Vector3.forward), out hitInfo, maxDistance))
+            if (Physics.Raycast(tfCamera.position, tfCamera.TransformDirection(Vector3.forward), out hitInfoDestroy, maxDistanceDestroy))
             {
-                if (goDestroy != hitInfo.collider.gameObject)
+                if (goDestroy != hitInfoDestroy.collider.gameObject)
                 {
                     if (goDestroy != null) goDestroy.GetComponent<BlockController>().endDestroy();
 
                     try
                     {
-                        goDestroy = hitInfo.collider.gameObject;
+                        goDestroy = hitInfoDestroy.collider.gameObject;
                         goDestroy.GetComponent<BlockController>().startDestroy();
                     }
                     catch
@@ -102,7 +103,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetMouseButtonUp(0))
         {
-            if (Physics.Raycast(tfCamera.position, tfCamera.TransformDirection(Vector3.forward), out hitInfo, maxDistance))
+            if (Physics.Raycast(tfCamera.position, tfCamera.TransformDirection(Vector3.forward), out hitInfoDestroy, maxDistanceDestroy))
             {
                 try
                 {
@@ -120,7 +121,18 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
+            if (Physics.Raycast(tfCamera.position, tfCamera.TransformDirection(Vector3.forward), out hitInfoPlace, maxDistancePlace))
+            {
+                hitOrigin = hitInfoPlace.collider.gameObject.transform.position;
+                hitPoint = hitInfoPlace.point;
 
+                goPlace = Instantiate(grass);
+                goPlace.transform.position = new Vector3(
+                    hitOrigin.x - 0.5f == hitPoint.x ? hitOrigin.x - 1f : (hitOrigin.x + 0.5f == hitPoint.x ? hitOrigin.x + 1f : hitOrigin.x),
+                    hitOrigin.y - 0.5f == hitPoint.y ? hitOrigin.y - 1f : (hitOrigin.y + 0.5f == hitPoint.y ? hitOrigin.y + 1f : hitOrigin.y),
+                    hitOrigin.z - 0.5f == hitPoint.z ? hitOrigin.z - 1f : (hitOrigin.z + 0.5f == hitPoint.z ? hitOrigin.z + 1f : hitOrigin.z)
+                );
+            }
         }
     }
 }
