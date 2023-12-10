@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
         isJumping = true;
         rb = GetComponent<Rigidbody>();
         tfCamera = GameObject.Find("Main Camera").transform;
-        movSpeed = 4f;
+        movSpeed = 2f;
         jumpSpeed = 256f;
         sen = 100f;
         maxDistanceDestroy = 5f;
