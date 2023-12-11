@@ -10,6 +10,7 @@ public class BlockController : MonoBehaviour
     bool isDestroying;
     float timer, time;
     String code;
+    CanvasController canvasController;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +18,7 @@ public class BlockController : MonoBehaviour
         originColor = GetComponent<Renderer>().material.GetColor("_Color");
         isDestroying = false;
         timer = 0f;
+        canvasController = GameObject.Find("CanvasController").GetComponent<CanvasController>();
 
         // Initialize Destroy Time
         code = gameObject.name.Substring(0, 3);
@@ -74,6 +76,7 @@ public class BlockController : MonoBehaviour
 
     void destroy()
     {
+        canvasController.addBlockNums(int.Parse(code));
         Destroy(gameObject);
     }
 }

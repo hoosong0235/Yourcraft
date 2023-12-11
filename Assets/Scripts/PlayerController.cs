@@ -166,12 +166,17 @@ public class PlayerController : MonoBehaviour
                 hitOrigin = hitInfoPlace.collider.gameObject.transform.position;
                 hitPoint = hitInfoPlace.point;
 
-                goPlace = Instantiate(blocks[canvasController.getIndex()]);
-                goPlace.transform.position = new Vector3(
-                    hitOrigin.x - 0.5f == hitPoint.x ? hitOrigin.x - 1f : (hitOrigin.x + 0.5f == hitPoint.x ? hitOrigin.x + 1f : hitOrigin.x),
-                    hitOrigin.y - 0.5f == hitPoint.y ? hitOrigin.y - 1f : (hitOrigin.y + 0.5f == hitPoint.y ? hitOrigin.y + 1f : hitOrigin.y),
-                    hitOrigin.z - 0.5f == hitPoint.z ? hitOrigin.z - 1f : (hitOrigin.z + 0.5f == hitPoint.z ? hitOrigin.z + 1f : hitOrigin.z)
-                );
+                if (canvasController.getBlockNums() > 0)
+                {
+                    goPlace = Instantiate(blocks[canvasController.getIndex()]);
+                    goPlace.transform.position = new Vector3(
+                        hitOrigin.x - 0.5f == hitPoint.x ? hitOrigin.x - 1f : (hitOrigin.x + 0.5f == hitPoint.x ? hitOrigin.x + 1f : hitOrigin.x),
+                        hitOrigin.y - 0.5f == hitPoint.y ? hitOrigin.y - 1f : (hitOrigin.y + 0.5f == hitPoint.y ? hitOrigin.y + 1f : hitOrigin.y),
+                        hitOrigin.z - 0.5f == hitPoint.z ? hitOrigin.z - 1f : (hitOrigin.z + 0.5f == hitPoint.z ? hitOrigin.z + 1f : hitOrigin.z)
+                    );
+
+                    canvasController.subBlockNums();
+                }
             }
         }
     }
