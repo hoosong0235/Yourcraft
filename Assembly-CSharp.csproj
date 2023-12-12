@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\ItemController.cs" />
     <Compile Include="Assets\Scripts\StartSceneSceneManager.cs" />
     <Compile Include="Assets\Scripts\StartSceneCameraController.cs" />
+    <Compile Include="Assets\Scripts\SceneController.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
   </ItemGroup>
