@@ -12,13 +12,13 @@ GameObject:
   - component: {fileID: 23522833375633572}
   - component: {fileID: 65947011330855640}
   - component: {fileID: 33645564635655500}
-  - component: {fileID: 5221756421290232874}
+  - component: {fileID: 2122539932491193649}
   m_Layer: 0
   m_Name: 004-Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4244326638727826
 Transform:
@@ -106,7 +106,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1550806760829552}
   m_Mesh: {fileID: 4300000, guid: 799d1553e777b064da196b6922de22d7, type: 3}
---- !u!114 &5221756421290232874
+--- !u!114 &2122539932491193649
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,3 +118,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 415d0175d200b544d826a9a06a3b0607, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ground: {fileID: 7769586247886578133, guid: 475e451bcb4c16b4ba1b1681cb6d2298, type: 3}
+  grass: {fileID: 8754342055076612213, guid: bcd44b46e5184ce409ef081a6b2334ab, type: 3}
+  wood: {fileID: 4016668989271089756, guid: 8aeb341b03e603749bc84a4684edb91b, type: 3}
+  leaf: {fileID: 6432922358106530975, guid: baed9b0c224b07d43a65ad1920ce37ec, type: 3}
+  stone: {fileID: 3715121660821496148, guid: cf7320c88ea808442b8c66ba9ca78f66, type: 3}
+  bedrock: {fileID: 0}

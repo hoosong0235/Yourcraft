@@ -9,8 +9,11 @@ public class BlockController : MonoBehaviour
     Color originColor;
     bool isDestroying;
     float timer, time;
-    String code;
-    CanvasController canvasController;
+    List<float> times;
+    int code;
+    public GameObject ground, grass, wood, leaf, stone, bedrock;
+    GameObject item;
+    List<GameObject> items;
 
     // Start is called before the first frame update
     void Start()
@@ -18,34 +21,12 @@ public class BlockController : MonoBehaviour
         originColor = GetComponent<Renderer>().material.GetColor("_Color");
         isDestroying = false;
         timer = 0f;
-        canvasController = GameObject.Find("CanvasController").GetComponent<CanvasController>();
+        times = new List<float> { 1f, 1f, 2f, 0.5f, 4f, 60f };
+        items = new List<GameObject> { ground, grass, wood, leaf, stone, bedrock };
 
         // Initialize Destroy Time
-        code = gameObject.name.Substring(0, 3);
-        switch (code)
-        {
-            case "000": // Ground
-                time = 1f;
-                break;
-            case "001": // Grass
-                time = 1f;
-                break;
-            case "002": // Wood
-                time = 2f;
-                break;
-            case "003": // Leaf
-                time = 0.5f;
-                break;
-            case "004": // Stone
-                time = 4f;
-                break;
-            case "005": // Bedrock
-                time = 60f;
-                break;
-            default: // Unknown
-                time = 60f;
-                break;
-        }
+        code = int.Parse(gameObject.name.Substring(0, 3));
+        time = times[code];
     }
 
     // Update is called once per frame
@@ -76,7 +57,9 @@ public class BlockController : MonoBehaviour
 
     void destroy()
     {
-        canvasController.addBlockNums(int.Parse(code));
+        item = Instantiate(items[code]);
+        item.transform.position = transform.position;
+
         Destroy(gameObject);
     }
 }

@@ -30,8 +30,8 @@ public class PlayerController : MonoBehaviour
         movSpeed = 2f;
         jumpSpeed = 256f;
         sen = 100f;
-        maxDistanceDestroy = 5f;
-        maxDistancePlace = 5f;
+        maxDistanceDestroy = 4f;
+        maxDistancePlace = 4f;
         canvasController = GameObject.Find("CanvasController").GetComponent<CanvasController>();
         blocks = new List<GameObject> { ground, grass, wood, leaf, stone };
     }
