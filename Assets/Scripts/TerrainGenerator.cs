@@ -6,8 +6,9 @@ using UnityEngine;
 
 public class TerrainGenerator : MonoBehaviour
 {
-    const int size = 16;
-    int x, y, z, xy, zy, i, minX, maxX, minZ, maxZ;
+    const int size = 24;
+    int x, y, z, xy, zy, i, j, k, minX, maxX, minZ, maxZ;
+    int groundDepth, grassDepth, stoneDepth, bedrockDepth;
     float rand, perc;
     public GameObject ground, grass, wood, leaf, stone, bedrock;
     GameObject groundInstance, grassInstance, woodInstance, leafInstance, stoneInstance, bedrockInstance;
@@ -17,6 +18,11 @@ public class TerrainGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        groundDepth = 2;
+        grassDepth = 1;
+        stoneDepth = 4;
+        bedrockDepth = 1;
+
         minX = -size;
         maxX = size - 1;
         minZ = -size;
@@ -92,27 +98,35 @@ public class TerrainGenerator : MonoBehaviour
         grassInstance = Instantiate(grass);
         grassInstance.transform.position = new UnityEngine.Vector3(x, y, z);
 
-        for (i = 0; i < 4; i++)
+        for (i = 0; i < groundDepth; i++)
         {
             groundInstance = Instantiate(ground);
-            groundInstance.transform.position = new UnityEngine.Vector3(x, y - i - 1, z);
+            groundInstance.transform.position = new UnityEngine.Vector3(x, y - i - grassDepth, z);
         }
 
-        for (i = 0; i < 16; i++)
+        for (i = 0; i < stoneDepth; i++)
         {
             stoneInstance = Instantiate(stone);
-            stoneInstance.transform.position = new UnityEngine.Vector3(x, y - i - 5, z);
+            stoneInstance.transform.position = new UnityEngine.Vector3(x, y - i - grassDepth - groundDepth, z);
         }
 
-        bedrockInstance = Instantiate(bedrock);
-        bedrockInstance.transform.position = new UnityEngine.Vector3(x, y - 21, z);
+        for (i = 0; i < bedrockDepth; i++)
+        {
+            bedrockInstance = Instantiate(bedrock);
+            bedrockInstance.transform.position = new UnityEngine.Vector3(x, y - grassDepth - groundDepth - stoneDepth, z);
+        }
 
         // Tree Generation
         rand = UnityEngine.Random.Range(0f, 1f);
         if (rand < 0.01f)
         {
             // Wood Generation
-            for (i = 0, perc = 1f; rand < perc; i++, perc = perc * 0.9f, rand = UnityEngine.Random.Range(0f, 1f))
+            for (i = 0; i < 3; i++)
+            {
+                woodInstance = Instantiate(wood);
+                woodInstance.transform.position = new UnityEngine.Vector3(x, y + i + 1, z);
+            }
+            for (i = 3, perc = 1f; rand < perc; i++, perc = perc * 0.5f, rand = UnityEngine.Random.Range(0f, 1f))
             {
                 woodInstance = Instantiate(wood);
                 woodInstance.transform.position = new UnityEngine.Vector3(x, y + i + 1, z);
@@ -120,16 +134,29 @@ public class TerrainGenerator : MonoBehaviour
 
             // Leaf Generation
             // TODO: Probablistic Generation
-            leafInstance = Instantiate(leaf);
-            leafInstance.transform.position = new UnityEngine.Vector3(x, y + i + 1, z);
-            leafInstance = Instantiate(leaf);
-            leafInstance.transform.position = new UnityEngine.Vector3(x - 1, y + i, z);
-            leafInstance = Instantiate(leaf);
-            leafInstance.transform.position = new UnityEngine.Vector3(x + 1, y + i, z);
-            leafInstance = Instantiate(leaf);
-            leafInstance.transform.position = new UnityEngine.Vector3(x, y + i, z - 1);
-            leafInstance = Instantiate(leaf);
-            leafInstance.transform.position = new UnityEngine.Vector3(x, y + i, z + 1);
+            for (j = i; j < i + 3; j++)
+            {
+                List<List<int>> targets;
+
+                if (j == i)
+                {
+                    targets = new List<List<int>> { new List<int> { -1, -1 }, new List<int> { -1, 0 }, new List<int> { -1, 1 }, new List<int> { 0, -1 }, new List<int> { 0, 1 }, new List<int> { 1, -1 }, new List<int> { 1, 0 }, new List<int> { 1, 1 } };
+                }
+                else if (j == i + 1)
+                {
+                    targets = new List<List<int>> { new List<int> { -1, -1 }, new List<int> { -1, 0 }, new List<int> { -1, 1 }, new List<int> { 0, -1 }, new List<int> { 0, 0 }, new List<int> { 0, 1 }, new List<int> { 1, -1 }, new List<int> { 1, 0 }, new List<int> { 1, 1 } };
+                }
+                else
+                {
+                    targets = new List<List<int>> { new List<int> { -1, 0 }, new List<int> { 1, 0 }, new List<int> { 0, 0 }, new List<int> { 0, -1 }, new List<int> { 0, 1 } };
+                }
+
+                foreach (List<int> target in targets)
+                {
+                    leafInstance = Instantiate(leaf);
+                    leafInstance.transform.position = new UnityEngine.Vector3(x + target[0], y + j, z + target[1]);
+                }
+            }
         }
     }
 
