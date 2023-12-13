@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class TerrainGenerator : MonoBehaviour
 {
-    const int size = 24;
+    const int size = 32;
     int x, y, z, xy, zy, i, j, k, minX, maxX, minZ, maxZ;
     int groundDepth, grassDepth, stoneDepth, bedrockDepth;
     float rand, perc;

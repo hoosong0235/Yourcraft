@@ -14,9 +14,9 @@ public class PlayerController : MonoBehaviour
     Vector3 movement;
     bool isJumping;
     float jumpSpeed;
-    float maxDistanceDestroy, maxDistancePlace;
+    float maxDistanceInteract;
     RaycastHit hitInfoDestroy, hitInfoPlace;
-    GameObject goDestroy, goPlace;
+    GameObject goPoint, goDestroy, goPlace;
     Vector3 hitOrigin, hitPoint;
     CanvasController canvasController;
 
@@ -30,8 +30,7 @@ public class PlayerController : MonoBehaviour
         movSpeed = 2f;
         jumpSpeed = 256f;
         sen = 100f;
-        maxDistanceDestroy = 4f;
-        maxDistancePlace = 4f;
+        maxDistanceInteract = 4f;
         canvasController = GameObject.Find("CanvasController").GetComponent<CanvasController>();
         blocks = new List<GameObject> { ground, grass, wood, leaf, stone };
     }
@@ -44,6 +43,7 @@ public class PlayerController : MonoBehaviour
         jumpCharacter();
 
         selectBlock();
+        pointBlock();
         destroyBlock();
         placeBlock();
     }
@@ -86,11 +86,65 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void pointBlock()
+    {
+        if (Physics.Raycast(tfCamera.position, tfCamera.TransformDirection(Vector3.forward), out hitInfoDestroy, maxDistanceInteract))
+        {
+            if (goPoint != hitInfoDestroy.collider.gameObject)
+            {
+                try
+                {
+                    if (goPoint != null) goPoint.GetComponent<BlockController>().endPoint();
+                }
+                catch
+                {
+                    print("[ERROR 5-1] endPoint with null goPoint");
+                }
+
+                try
+                {
+                    goPoint = hitInfoDestroy.collider.gameObject;
+                    goPoint.GetComponent<BlockController>().enabled = true;
+                    goPoint.GetComponent<BlockController>().startPoint();
+                }
+                catch
+                {
+                    print("[ERROR 4-1] startPoint with null goPoint");
+                }
+            }
+            else
+            {
+                try
+                {
+                    goPoint = hitInfoDestroy.collider.gameObject;
+                    goPoint.GetComponent<BlockController>().startPoint();
+                }
+                catch
+                {
+                    print("[ERROR 4-1] startPoint with null goPoint");
+                }
+            }
+        }
+        else
+        {
+            try
+            {
+                if (goPoint != null) goPoint.GetComponent<BlockController>().endPoint();
+            }
+            catch
+            {
+                print("[ERROR 5-2] endPoint with null goPoint");
+            }
+
+            goPoint = null;
+        }
+    }
+
     void destroyBlock()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (Physics.Raycast(tfCamera.position, tfCamera.TransformDirection(Vector3.forward), out hitInfoDestroy, maxDistanceDestroy))
+            if (Physics.Raycast(tfCamera.position, tfCamera.TransformDirection(Vector3.forward), out hitInfoDestroy, maxDistanceInteract))
             {
                 try
                 {
@@ -105,7 +159,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetMouseButton(0))
         {
-            if (Physics.Raycast(tfCamera.position, tfCamera.TransformDirection(Vector3.forward), out hitInfoDestroy, maxDistanceDestroy))
+            if (Physics.Raycast(tfCamera.position, tfCamera.TransformDirection(Vector3.forward), out hitInfoDestroy, maxDistanceInteract))
             {
                 if (goDestroy != hitInfoDestroy.collider.gameObject)
                 {
@@ -128,6 +182,18 @@ public class PlayerController : MonoBehaviour
                         print("[ERROR 1-2] startDestroy with null goDestroy");
                     }
                 }
+                else
+                {
+                    try
+                    {
+                        goDestroy = hitInfoDestroy.collider.gameObject;
+                        goDestroy.GetComponent<BlockController>().startDestroy();
+                    }
+                    catch
+                    {
+                        print("[ERROR 1-2] startDestroy with null goDestroy");
+                    }
+                }
             }
             else
             {
@@ -139,11 +205,13 @@ public class PlayerController : MonoBehaviour
                 {
                     print("[ERROR 3-2] endDestroy with null nonnull goDestroy");
                 }
+
+                goDestroy = null;
             }
         }
         if (Input.GetMouseButtonUp(0))
         {
-            if (Physics.Raycast(tfCamera.position, tfCamera.TransformDirection(Vector3.forward), out hitInfoDestroy, maxDistanceDestroy))
+            if (Physics.Raycast(tfCamera.position, tfCamera.TransformDirection(Vector3.forward), out hitInfoDestroy, maxDistanceInteract))
             {
                 try
                 {
@@ -153,6 +221,8 @@ public class PlayerController : MonoBehaviour
                 {
                     print("[ERROR 2-1] endDestroy wiht null goDestroy");
                 }
+
+                goDestroy = null;
             }
         }
     }
@@ -161,7 +231,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            if (Physics.Raycast(tfCamera.position, tfCamera.TransformDirection(Vector3.forward), out hitInfoPlace, maxDistancePlace))
+            if (Physics.Raycast(tfCamera.position, tfCamera.TransformDirection(Vector3.forward), out hitInfoPlace, maxDistanceInteract))
             {
                 hitOrigin = hitInfoPlace.collider.gameObject.transform.position;
                 hitPoint = hitInfoPlace.point;
