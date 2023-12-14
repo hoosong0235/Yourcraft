@@ -8,6 +8,7 @@ public class ItemController : MonoBehaviour
     Transform tfPlayer;
     int code;
     bool isFalling;
+    bool isMagnet;
     float maxDistanceMagnet;
     float distance;
     Vector3 movement;
@@ -19,7 +20,7 @@ public class ItemController : MonoBehaviour
         tfPlayer = GameObject.Find("Player").transform;
         code = int.Parse(gameObject.name.Substring(0, 3));
         isFalling = true;
-        maxDistanceMagnet = 4f;
+        maxDistanceMagnet = 2.5f;
     }
 
     // Update is called once per frame

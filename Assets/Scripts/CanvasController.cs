@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +12,10 @@ public class CanvasController : MonoBehaviour
     List<int> blockNums;
     Text groundNum, grassNum, woodNum, leafNum, stoneNum;
     List<Text> blockNumTexts;
+    bool isDebug;
+    public GameObject d1txt, d2txt, d3txt, dbg;
+    List<GameObject> debugs;
+    Transform tfPlayer;
 
     // Start is called before the first frame update
     void Start()
@@ -24,12 +30,28 @@ public class CanvasController : MonoBehaviour
         leafNum = GameObject.Find("Canvas").transform.Find("LeafNum").gameObject.GetComponent<Text>();
         stoneNum = GameObject.Find("Canvas").transform.Find("StoneNum").gameObject.GetComponent<Text>();
         blockNumTexts = new List<Text> { groundNum, grassNum, woodNum, leafNum, stoneNum };
+        isDebug = false;
+        debugs = new List<GameObject> { d1txt, d2txt, d3txt, dbg };
+        tfPlayer = GameObject.Find("Player").transform;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            isDebug = !isDebug;
+            foreach (GameObject debug in debugs) debug.SetActive(isDebug);
+        }
 
+        if (isDebug)
+        {
+            float dt = Time.deltaTime;
+            float fps = 1.0f / dt;
+
+            d2txt.GetComponent<Text>().text = String.Format("fps: {0} ({1}ms per frame)", (int)fps, (int)(dt * 1000));
+            d3txt.GetComponent<Text>().text = String.Format("XYZ: {0} / {1} / {2}", tfPlayer.position.x, tfPlayer.position.y, tfPlayer.position.z);
+        }
     }
 
     public int getIndex()
@@ -55,7 +77,7 @@ public class CanvasController : MonoBehaviour
 
     void updatePos()
     {
-        rtfSelected.anchoredPosition = new Vector3(56 * (index - 2), 48, 0);
+        rtfSelected.anchoredPosition = new UnityEngine.Vector3(56 * (index - 2), 48, 0);
     }
 
     public int getBlockNums()

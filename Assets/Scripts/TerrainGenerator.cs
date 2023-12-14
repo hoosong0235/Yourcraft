@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class TerrainGenerator : MonoBehaviour
 {
-    const int size = 32;
+    const int size = 24;
     int x, y, z, xy, zy, i, j, k, minX, maxX, minZ, maxZ;
     int groundDepth, grassDepth, stoneDepth, bedrockDepth;
     float rand, perc;
@@ -30,6 +30,8 @@ public class TerrainGenerator : MonoBehaviour
         xys = new Dictionary<int, int>();
         zys = new Dictionary<int, int>();
         tfPlayer = GameObject.Find("Player").transform;
+
+        Cursor.visible = false;
 
         // Initialize xys
         for (x = -size; x < size; x++)

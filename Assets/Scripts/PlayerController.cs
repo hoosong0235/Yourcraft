@@ -23,14 +23,13 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.visible = false;
         isJumping = true;
         rb = GetComponent<Rigidbody>();
         tfCamera = GameObject.Find("Main Camera").transform;
         movSpeed = 2f;
         jumpSpeed = 256f;
         sen = 100f;
-        maxDistanceInteract = 4f;
+        maxDistanceInteract = 5f;
         canvasController = GameObject.Find("CanvasController").GetComponent<CanvasController>();
         blocks = new List<GameObject> { ground, grass, wood, leaf, stone };
     }
