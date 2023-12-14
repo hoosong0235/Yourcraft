@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         tfCamera = GameObject.Find("Main Camera").transform;
         walkSpeed = 2f;
-        runSpeed = 4f;
+        runSpeed = 3f;
         jumpSpeed = 256f;
         sen = 100f;
         maxDistanceInteract = 5f;
@@ -61,7 +61,6 @@ public class PlayerController : MonoBehaviour
         {
             if (!isPressing)
             {
-                print(Time.time - time);
                 if (Time.time - time < 0.5f) isRunning = true;
                 else isRunning = false;
 
@@ -267,6 +266,9 @@ public class PlayerController : MonoBehaviour
                         hitOrigin.y - 0.5f == hitPoint.y ? hitOrigin.y - 1f : (hitOrigin.y + 0.5f == hitPoint.y ? hitOrigin.y + 1f : hitOrigin.y),
                         hitOrigin.z - 0.5f == hitPoint.z ? hitOrigin.z - 1f : (hitOrigin.z + 0.5f == hitPoint.z ? hitOrigin.z + 1f : hitOrigin.z)
                     );
+
+                    goPlace.GetComponent<BlockController>().enabled = true;
+                    goPlace.GetComponent<BlockController>().isPlaced = true;
 
                     canvasController.subBlockNums();
                 }

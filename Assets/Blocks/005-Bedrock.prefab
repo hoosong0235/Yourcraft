@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 23393096028645386}
   - component: {fileID: 65395998409480400}
   - component: {fileID: 33742462994188416}
-  - component: {fileID: 4393734985339559404}
+  - component: {fileID: -4191043193402824288}
   m_Layer: 0
   m_Name: 005-Bedrock
   m_TagString: Untagged
@@ -106,14 +106,14 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1136087126612918}
   m_Mesh: {fileID: 4300000, guid: 799d1553e777b064da196b6922de22d7, type: 3}
---- !u!114 &4393734985339559404
+--- !u!114 &-4191043193402824288
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1136087126612918}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 415d0175d200b544d826a9a06a3b0607, type: 3}
   m_Name: 
@@ -124,3 +124,19 @@ MonoBehaviour:
   leaf: {fileID: 2091719452540830309, guid: baed9b0c224b07d43a65ad1920ce37ec, type: 3}
   stone: {fileID: 725186604491248560, guid: cf7320c88ea808442b8c66ba9ca78f66, type: 3}
   bedrock: {fileID: 3016286145761815463, guid: afd67eb495df30e4c95371aae4ea9795, type: 3}
+  grass1: {fileID: 8300000, guid: 7b69ff9f87f9dc741a148d4f248491c6, type: 3}
+  grass2: {fileID: 8300000, guid: a0040732412fe264b9ee96c1ef66da93, type: 3}
+  grass3: {fileID: 8300000, guid: b8763388e0555344d8df66f978a851b1, type: 3}
+  grass4: {fileID: 8300000, guid: 464198ebf62568041a8ee68b974bcac6, type: 3}
+  gravel1: {fileID: 8300000, guid: 029ad952f57cc3e4280e7a39ceb07c8b, type: 3}
+  gravel2: {fileID: 8300000, guid: 4689745b1abd7eb468628ec21ceeec36, type: 3}
+  gravel3: {fileID: 8300000, guid: ad9a8592f7247d24993ee69570971ead, type: 3}
+  gravel4: {fileID: 8300000, guid: 3aa79773370e5f14d925aa9105fca002, type: 3}
+  stone1: {fileID: 8300000, guid: aac41c4061753534d9990064942a2f58, type: 3}
+  stone2: {fileID: 8300000, guid: b25b0463cb0a1384d99aeb403c2e5c5b, type: 3}
+  stone3: {fileID: 8300000, guid: 16d6338dc3fed994c80a6b9d0195ee48, type: 3}
+  stone4: {fileID: 8300000, guid: 72f5c39eee04c82448cce5076e46ba61, type: 3}
+  wood1: {fileID: 8300000, guid: aec39f1e311c4554f91322ad646876a7, type: 3}
+  wood2: {fileID: 8300000, guid: a6821e13801376446a7347bf09a88fdc, type: 3}
+  wood3: {fileID: 8300000, guid: 5410f7d473248bf4a9ed2605536a9dc7, type: 3}
+  wood4: {fileID: 8300000, guid: a4bdc83f4e1fb514f8ae5054d188d248, type: 3}
