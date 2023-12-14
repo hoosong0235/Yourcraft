@@ -10,7 +10,8 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;
     Transform tfCamera;
     float sen, horRot;
-    float horMov, verMov, movSpeed;
+    float horMov, verMov, walkSpeed, runSpeed, time;
+    bool isPressing, isRunning;
     Vector3 movement;
     bool isJumping;
     float jumpSpeed;
@@ -24,14 +25,18 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         isJumping = true;
+        isPressing = false;
+        isRunning = false;
         rb = GetComponent<Rigidbody>();
         tfCamera = GameObject.Find("Main Camera").transform;
-        movSpeed = 2f;
+        walkSpeed = 2f;
+        runSpeed = 4f;
         jumpSpeed = 256f;
         sen = 100f;
         maxDistanceInteract = 5f;
         canvasController = GameObject.Find("CanvasController").GetComponent<CanvasController>();
         blocks = new List<GameObject> { ground, grass, wood, leaf, stone };
+        time = Time.time;
     }
 
     // Update is called once per frame
@@ -51,8 +56,27 @@ public class PlayerController : MonoBehaviour
     {
         horMov = Input.GetAxis("Horizontal");
         verMov = Input.GetAxis("Vertical");
+
+        if (verMov > 0)
+        {
+            if (!isPressing)
+            {
+                print(Time.time - time);
+                if (Time.time - time < 0.5f) isRunning = true;
+                else isRunning = false;
+
+                time = Time.time;
+                isPressing = true;
+            }
+        }
+        else
+        {
+            isPressing = false;
+            isRunning = false;
+        }
+
         movement = Quaternion.AngleAxis(transform.rotation.eulerAngles.y, Vector3.up) * (Vector3.right * horMov + Vector3.forward * verMov);
-        rb.MovePosition(transform.position + movement * movSpeed * Time.deltaTime);
+        rb.MovePosition(transform.position + movement * (isRunning ? runSpeed : walkSpeed) * Time.deltaTime);
     }
 
     void rotateCharacter()
