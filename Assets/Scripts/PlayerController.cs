@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
         sen = 100f;
         maxDistanceInteract = 5f;
         canvasController = GameObject.Find("CanvasController").GetComponent<CanvasController>();
-        blocks = new List<GameObject> { ground, grass, wood, leaf, stone };
+        blocks = new List<GameObject> { ground, grass, wood, leaf, stone, bedrock };
         time = Time.time;
     }
 
